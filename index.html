@@ -4,7 +4,7 @@
       <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.js"></script>
     <style>
-        .favorite {
+        .isFavorite {
             background-color: tomato;
             color: white;
         }
@@ -12,63 +12,49 @@
   </head>
   <body>
     <h1>Acme Faker Favorites </h1>
+    <h3></h3>
     <div id="root"></div>
     <script>
       const { render } = ReactDOM;
       const { createElement, Component } = React;
       const root = document.querySelector('#root');
-
+      const h3 = document.querySelector('h3')
 
       class App extends Component{
         constructor(){
           super();
-            const isFavorites = [
-                {id: 1, name: faker.helpers.createCard().name, favorite: true},
-                {id: 2, name: faker.helpers.createCard().name, favorite: false},
-                {id: 3, name: faker.helpers.createCard().name, favorite: false}
-            ]
+            const users = [];
+            for (let i = 0; i < 20; i++) {
+                users.push(faker.helpers.createCard());
+            }
             this.state = {
-                isFavorites
+                users
             }
         }
 
         render(){
-            const { isFavorites } = this.state;
+            const { users } = this.state;
+            const toggle = (user) => {
+                user.isFavorite = !user.isFavorite;
+                this.setState({ users })
+            };
 
-            const toggle = (isFavorite => {
-                isFavorite.favorite = !isFavorite.favorite;
-                this.setState({ isFavorites })
-            });
-
-        const highlight = (ev) => {
-            const idx = [...ev.target.parentNode.children].indexOf(ev.target);
-            console.log(idx);
-        }
-
-      const names = [faker.helpers.createCard().name, faker.helpers.createCard().name, faker.helpers.createCard().name];
-      // const username = [faker.helpers.createCard().username, faker.helpers.createCard().username, faker.helpers.createCard().username];
-
-      const lisName = isFavorites.map( isFavorite => createElement(
-        'div',
+      const lisName = users.map( user => createElement(
+        'li',
         {
-            key: isFavorite.name,
-            className: isFavorite.favorite ? 'favorite' : '',
-            onClick: () => toggle(isFavorite)
+            key: name,
+            className: user.isFavorite ? 'isFavorite' : '',
+            onClick: () => toggle(user)
         },
-        isFavorite.name
+        createElement('div', null, user.name),
+        createElement('div', null, user.username)
         ));
+        const favorites = users.filter( user => user.isFavorite);
         const ul = createElement('ul', null, lisName);
-        // const lisUser = username.map( user => createElement(
-        // 'div',
-        // {key: user},
-        // user
-        // ));
-        const app = createElement('div', null, lisName);
-        return app
+        h3.innerHTML = `You have ${favorites.length} favorites`;
+        return createElement('div', null, ul);
         }
       }
-
-
       render(createElement(App), root);
     </script>
   </body>
