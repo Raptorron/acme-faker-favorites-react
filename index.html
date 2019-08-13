@@ -52,7 +52,8 @@
         'div',
         {
             key: isFavorite.name,
-            className: isFavorite.favorite ? 'favorite' : ''
+            className: isFavorite.favorite ? 'favorite' : '',
+            onClick: () => toggle(isFavorite)
         },
         isFavorite.name
         ));
