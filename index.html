@@ -22,24 +22,28 @@
       class App extends Component{
         constructor(){
           super();
-          this.state = {
-           names: [faker.helpers.createCard().name, faker.helpers.createCard().name, faker.helpers.createCard().name]
-          }
+            const isFavorites = [
+                {id: 1, name: faker.helpers.createCard().name, favorite: true},
+                {id: 2, name: faker.helpers.createCard().name, favorite: false},
+                {id: 3, name: faker.helpers.createCard().name, favorite: false}
+            ]
+            this.state = {
+                isFavorites
+            }
         }
 
         render(){
-        
-        const isFavorites = [
-            {id: 1, name: faker.helpers.createCard().name, favorite: true},
-            {id: 2, name: faker.helpers.createCard().name, favorite: false},
-            {id: 3, name: faker.helpers.createCard().name, favorite: false}
-        ];
+            const { isFavorites } = this.state;
+
+            const toggle = (isFavorite => {
+                isFavorite.favorite = !isFavorite.favorite;
+                this.setState({ isFavorites })
+            });
 
         const highlight = (ev) => {
             const idx = [...ev.target.parentNode.children].indexOf(ev.target);
             console.log(idx);
         }
-        // highlight();
 
       const names = [faker.helpers.createCard().name, faker.helpers.createCard().name, faker.helpers.createCard().name];
       // const username = [faker.helpers.createCard().username, faker.helpers.createCard().username, faker.helpers.createCard().username];
