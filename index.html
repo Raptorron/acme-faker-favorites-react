@@ -4,6 +4,10 @@
       <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.js"></script>
     <style>
+        .favorite {
+            background-color: tomato;
+            color: white;
+        }
     </style>
   </head>
   <body>
@@ -24,19 +28,31 @@
         }
 
         render(){
+        
+        const isFavorites = [
+            {id: 1, name: faker.helpers.createCard().name, favorite: true},
+            {id: 2, name: faker.helpers.createCard().name, favorite: false},
+            {id: 3, name: faker.helpers.createCard().name, favorite: false}
+        ];
 
-        const isColor = (ev) =>{
-
+        const highlight = (ev) => {
+            const idx = [...ev.target.parentNode.children].indexOf(ev.target);
+            console.log(idx);
         }
+        // highlight();
 
       const names = [faker.helpers.createCard().name, faker.helpers.createCard().name, faker.helpers.createCard().name];
       // const username = [faker.helpers.createCard().username, faker.helpers.createCard().username, faker.helpers.createCard().username];
 
-      const lisName = names.map( name => createElement(
+      const lisName = isFavorites.map( isFavorite => createElement(
         'div',
-        {key: name},
-        name
+        {
+            key: isFavorite.name,
+            className: isFavorite.favorite ? 'favorite' : ''
+        },
+        isFavorite.name
         ));
+        const ul = createElement('ul', null, lisName);
         // const lisUser = username.map( user => createElement(
         // 'div',
         // {key: user},
@@ -48,8 +64,7 @@
       }
 
 
-
-      render(createElement( App), root)
+      render(createElement(App), root);
     </script>
   </body>
 </html>
